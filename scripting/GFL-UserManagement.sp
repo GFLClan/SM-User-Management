@@ -225,7 +225,9 @@ public Action OnClientPreAdminCheck(int client) {
 }
 
 public void OnClientPostAdminFilter(int client) {
-	AssignPerks(client);
+	if (!g_bResponseFailed[client]) {
+		AssignPerks(client);
+	}
 }
 
 stock void AssignPerks(int client) {
