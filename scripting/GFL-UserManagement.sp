@@ -11,9 +11,9 @@
 #define PL_VERSION "1.0.0"
 
 // Groups
-GroupId g_gidMember;
-GroupId g_gidSupporter;
-GroupId g_gidVIP;
+GroupId g_gidMember = INVALID_GROUP_ID;
+GroupId g_gidSupporter = INVALID_GROUP_ID;
+GroupId g_gidVIP = INVALID_GROUP_ID;
 
 const int GROUP_MEMBER = 1;
 const int GROUP_SUPPORTER = 2;
