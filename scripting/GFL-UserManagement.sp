@@ -11,9 +11,9 @@
 #define PL_VERSION "1.0.0"
 
 // Groups
-GroupId g_gidMember;
-GroupId g_gidSupporter;
-GroupId g_gidVIP;
+GroupId g_gidMember = INVALID_GROUP_ID;
+GroupId g_gidSupporter = INVALID_GROUP_ID;
+GroupId g_gidVIP = INVALID_GROUP_ID;
 
 const int GROUP_MEMBER = 1;
 const int GROUP_SUPPORTER = 2;
@@ -30,6 +30,7 @@ char g_sURL[1024];
 char g_sEndpoint[1024];
 char g_sToken[64];
 bool g_bDebug = false;
+bool g_bLate = false;
 
 bool g_bResponseFailed[MAXPLAYERS + 1];
 int g_iClientGroup[MAXPLAYERS + 1];
@@ -55,6 +56,16 @@ public void OnPluginStart() {
 	g_cvDebug = CreateConVar("sm_gflum_debug", "0", "Logging level increased for debugging.");
 
 	AutoExecConfig(true, "GFL-UserManagement");
+
+	if (g_bLate)
+		ValidateGroups();
+}
+
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+{
+	g_bLate = late;
+
+	return APLRes_Success;
 }
 
 public void OnAllPluginsLoaded() {
