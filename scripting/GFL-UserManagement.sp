@@ -122,7 +122,7 @@ public Action Timer_RebuildCache(Handle timer) {
 	ValidateGroups();
 
 	for(int client = 1; client <= MaxClients; client++) {
-		if(g_bClientPreAdminChecked[client] && g_iClientGroup[client] > 0) {
+		if(g_bClientPreAdminChecked[client] && g_iClientGroup[client] > 0 && !IsFakeClient(client)) {
 			if (g_bDebug) {
 				GFLCore_LogMessage("", "[GFL-UserManagement] Timer_RebuildCache() :: Assigning perks for %L since they are cached.", client);
 			}
@@ -140,6 +140,8 @@ public void OnClientDisconnect(int client) {
 }
 
 public void OnClientAuthorized(int client, const char[] sAuth2) {
+	if (IsFakeClient(client)) return;
+	
 	// Get their Steam ID 64.
 	char steamID64[64];
 	GetClientAuthId(client, AuthId_SteamID64, steamID64, sizeof(steamID64), true);
@@ -173,7 +175,7 @@ public void PerkJSONReceived(HTTPResponse response, any userID) {
 	// Check if the response errored out.
 	if (response.Status != HTTPStatus_OK) {
 		// Welp, fuck...
-		GFLCore_LogMessage("", "[GFL-UserManagement] PerkJSONReceived() :: Error with GET reqeust (Error code: %d, Steam ID: %s)", response.Status, steamID64);
+		GFLCore_LogMessage("", "[GFL-UserManagement] PerkJSONReceived() :: Error with GET request (Error code: %d, Steam ID: %s)", response.Status, steamID64);
 		g_bResponseFailed[client] = true;
 		if(g_bClientPreAdminChecked[client]) NotifyPostAdminCheck(client);
 		return;
