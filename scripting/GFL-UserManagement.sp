@@ -175,7 +175,7 @@ public void PerkJSONReceived(HTTPResponse response, any userID) {
 	// Check if the response errored out.
 	if (response.Status != HTTPStatus_OK) {
 		// Welp, fuck...
-		GFLCore_LogMessage("", "[GFL-UserManagement] PerkJSONReceived() :: Error with GET reqeust (Error code: %d, Steam ID: %s)", response.Status, steamID64);
+		GFLCore_LogMessage("", "[GFL-UserManagement] PerkJSONReceived() :: Error with GET request (Error code: %d, Steam ID: %s)", response.Status, steamID64);
 		g_bResponseFailed[client] = true;
 		if(g_bClientPreAdminChecked[client]) NotifyPostAdminCheck(client);
 		return;
