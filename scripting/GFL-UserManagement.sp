@@ -122,7 +122,7 @@ public Action Timer_RebuildCache(Handle timer) {
 	ValidateGroups();
 
 	for(int client = 1; client <= MaxClients; client++) {
-		if(g_bClientPreAdminChecked[client] && g_iClientGroup[client] > 0) {
+		if(g_bClientPreAdminChecked[client] && g_iClientGroup[client] > 0 && !IsFakeClient(client)) {
 			if (g_bDebug) {
 				GFLCore_LogMessage("", "[GFL-UserManagement] Timer_RebuildCache() :: Assigning perks for %L since they are cached.", client);
 			}
