@@ -140,25 +140,25 @@ public void OnClientDisconnect(int client) {
 }
 
 public void OnClientAuthorized(int client, const char[] sAuth2) {
-	if (!IsFakeClient(client)) {
-		// Get their Steam ID 64.
-		char steamID64[64];
-		GetClientAuthId(client, AuthId_SteamID64, steamID64, sizeof(steamID64), true);
+	if (IsFakeClient(client)) return;
+	
+	// Get their Steam ID 64.
+	char steamID64[64];
+	GetClientAuthId(client, AuthId_SteamID64, steamID64, sizeof(steamID64), true);
 
-		// Format the GET string.
-		char path[256];
-		Format(path, sizeof(path), "%s?steamid=%s", g_sEndpoint, steamID64);
+	// Format the GET string.
+	char path[256];
+	Format(path, sizeof(path), "%s?steamid=%s", g_sEndpoint, steamID64);
 
-		// Set authentication header.
-		httpClient.SetHeader("Authorization", g_sToken);
+	// Set authentication header.
+	httpClient.SetHeader("Authorization", g_sToken);
 
-		// Execute the GET request.
-		httpClient.Get(path, PerkJSONReceived, GetClientUserId(client));
+	// Execute the GET request.
+	httpClient.Get(path, PerkJSONReceived, GetClientUserId(client));
 
-		// Debug.
-		if (g_bDebug) {
-			GFLCore_LogMessage("", "[GFL-UserManagement] OnClientAuthorized() :: Fetching perks for %L now...", client);
-		}
+	// Debug.
+	if (g_bDebug) {
+		GFLCore_LogMessage("", "[GFL-UserManagement] OnClientAuthorized() :: Fetching perks for %L now...", client);
 	}
 }
 
